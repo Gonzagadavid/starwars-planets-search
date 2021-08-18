@@ -9,6 +9,7 @@ const Provider = ({ children }) => {
   const [filterName, setFilterByName] = useState('');
   const [column, comparison, value, setSelect] = useThreeValues();
   const filterData = useRef(data);
+  const filterByNumericValues = useRef([]);
 
   useEffect(() => {
     const fetchPlanets = async () => {
@@ -33,19 +34,19 @@ const Provider = ({ children }) => {
         return true;
       });
     setData(newData);
+
+    filterByNumericValues.current = [
+      ...filterByNumericValues.current, { column, comparison, value },
+    ];
+
+    filterData.current = newData;
   }, [column, comparison, value]);
 
   const context = {
     data,
     filters: {
       filterByName: { name: filterName },
-      filterByNumericValues: [
-        {
-          column,
-          comparison,
-          value,
-        },
-      ],
+      filterByNumericValues: filterByNumericValues.current,
     },
     setFilterByName,
     setSelect,

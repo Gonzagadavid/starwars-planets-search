@@ -8,17 +8,19 @@ const SelectNumber = () => {
   const [
     column, comparison, value, setValues,
   ] = useThreeValues(['population', 'maior que', 0]);
-  const { setSelect } = useContext(StarWarsContext);
+  const { setSelect, filters: { filterByNumericValues } } = useContext(StarWarsContext);
   const columns = [
     'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
   ];
+  const colFiltered = filterByNumericValues.map(({ column: col }) => col);
+  const columnsFilter = columns.filter((col) => !colFiltered.includes(col));
   const comparisons = ['maior que', 'menor que', 'igual a'];
   return (
     <div>
       <Select
         id="column-filter"
         labelText="Selecione a coluna"
-        options={ columns }
+        options={ columnsFilter }
         value={ column }
         onChange={
           ({ target: { value: newColumn } }) => setValues([newColumn, comparison, value])
