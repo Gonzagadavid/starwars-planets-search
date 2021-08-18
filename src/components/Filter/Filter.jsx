@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import StarWarsContext from '../../context/StarWarsContext';
 import Input from '../Input/Input';
+import SelectOrder from '../SelecetOrder/SelectOrder';
 import SelectNumber from '../SelectNumber/SelectNumber';
 
 const Filter = () => {
@@ -20,6 +21,7 @@ const Filter = () => {
         <button type="button" onClick={ resetFilters }>X</button>
       </div>
       <SelectNumber />
+      <SelectOrder />
     </div>
   );
 };

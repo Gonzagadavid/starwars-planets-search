@@ -18,7 +18,10 @@ const Table = () => {
         {data.map((infoList) => (
           <tr key={ infoList.name }>
             {heads.map((head) => (
-              <td key={ infoList[head] }>
+              <td
+                key={ infoList[head] }
+                data-testid={ head === 'name' ? 'planet-name' : '' }
+              >
                 {infoList[head]}
               </td>
             ))}
