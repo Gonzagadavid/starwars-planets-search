@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import StarWarsContext from '../../context/StarWarsContext';
 import Input from '../Input/Input';
+import SelectNumber from '../SelectNumber/SelectNumber';
 
 const Filter = () => {
   const {
@@ -15,6 +16,7 @@ const Filter = () => {
         value={ name }
         onChange={ ({ target: { value } }) => setFilterByName(value) }
       />
+      <SelectNumber />
     </div>
   );
 };
