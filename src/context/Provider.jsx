@@ -8,6 +8,7 @@ const Provider = ({ children }) => {
   const [data, setData] = useState([]);
   const [filterName, setFilterByName] = useState('');
   const [column, comparison, value, setSelect] = useThreeValues();
+  const initialData = useRef(data);
   const filterData = useRef(data);
   const filterByNumericValues = useRef([]);
 
@@ -16,6 +17,7 @@ const Provider = ({ children }) => {
       const { results } = await fetchApi();
       setData(results);
       filterData.current = results;
+      initialData.current = results;
     };
     fetchPlanets();
   }, [setData]);
@@ -42,6 +44,12 @@ const Provider = ({ children }) => {
     filterData.current = newData;
   }, [column, comparison, value]);
 
+  const resetFilters = () => {
+    setData(initialData.current);
+    setFilterByName('');
+    filterByNumericValues.current = [];
+  };
+
   const context = {
     data,
     filters: {
@@ -50,6 +58,7 @@ const Provider = ({ children }) => {
     },
     setFilterByName,
     setSelect,
+    resetFilters,
   };
 
   return (

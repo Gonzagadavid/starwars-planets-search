@@ -5,17 +5,20 @@ import SelectNumber from '../SelectNumber/SelectNumber';
 
 const Filter = () => {
   const {
-    setFilterByName, filters: { filterByName: { name } },
+    setFilterByName, filters: { filterByName: { name } }, resetFilters,
   } = useContext(StarWarsContext);
   return (
     <div>
-      <Input
-        id="name-filter"
-        type="text"
-        labelText="Name:"
-        value={ name }
-        onChange={ ({ target: { value } }) => setFilterByName(value) }
-      />
+      <div data-testid="filter">
+        <Input
+          id="name-filter"
+          type="text"
+          labelText="Name:"
+          value={ name }
+          onChange={ ({ target: { value } }) => setFilterByName(value) }
+        />
+        <button type="button" onClick={ resetFilters }>X</button>
+      </div>
       <SelectNumber />
     </div>
   );
