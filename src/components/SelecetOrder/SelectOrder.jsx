@@ -5,11 +5,11 @@ import Select from '../Select/Select';
 
 const SelectOrder = () => {
   const {
-    filters: { order: { column } },
-    data, setcolumnSort, setSort, sortList,
+    filters: { order: { column, sort } }, data, setSort, sortList,
   } = useContext(StarWarsContext);
-  const columns = data.length
-    ? Object.keys(data[0]).filter((key) => key !== 'residents') : [];
+
+  const columns = data.length ? Object.keys(data[0])
+    .filter((key) => key !== 'residents') : [];
 
   return (
     <div>
@@ -20,7 +20,7 @@ const SelectOrder = () => {
         value={ column }
         onChange={
           ({ target: { value } }) => (
-            setcolumnSort(value))
+            setSort([sort, value]))
         }
       />
       <Input
@@ -28,14 +28,14 @@ const SelectOrder = () => {
         labelText="Ordem Ascedente"
         type="radio"
         value="ASC"
-        onChange={ () => setSort('ASC') }
+        onChange={ () => setSort(['ASC', column]) }
       />
       <Input
         id="column-sort-input-desc"
         labelText="Ordem Decrescente"
         type="radio"
         value="DESC"
-        onChange={ () => setSort('DESC') }
+        onChange={ () => setSort(['DESC', column]) }
       />
       <button
         type="button"

@@ -3,20 +3,18 @@ import StarWarsContext from '../../context/StarWarsContext';
 import Select from '../Select/Select';
 import useThreeValues from '../../hooks/useThreeValues';
 import Input from '../Input/Input';
+import { columns, comparisons } from '../../constants';
 
 const SelectNumber = () => {
-  const [
-    column, comparison, value, setValues,
+  const [column, comparison, value, setValues,
   ] = useThreeValues(['population', 'maior que', 0]);
-  const {
-    setSelect, filters: { filterByNumericValues }, resetFilters,
+
+  const { setSelect, filters: { filterByNumericValues }, resetFilters,
   } = useContext(StarWarsContext);
-  const columns = [
-    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
-  ];
+
   const colFiltered = filterByNumericValues.map(({ column: col }) => col);
   const columnsFilter = columns.filter((col) => !colFiltered.includes(col));
-  const comparisons = ['maior que', 'menor que', 'igual a'];
+
   return (
     <div data-testid="filter">
       <Select
