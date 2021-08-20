@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
+import { filterNotIncludes } from '../../functions';
 import StarWarsContext from '../../context/StarWarsContext';
 
 const Table = () => {
   const { data } = useContext(StarWarsContext);
   if (!data.length) return <p>Loading...</p>;
 
-  const tableKeys = Object.keys(data[0]).filter((key) => key !== 'residents');
+  const tableKeys = filterNotIncludes(Object.keys(data[0]), 'residents');
 
   return (
     <table>
