@@ -45,7 +45,6 @@ const SelectNumber = () => {
           ({ target: { value: newValue } }) => setValues([column, comparison, newValue])
         }
       />
-      {/* <button type="button" onClick={ resetFilters }>X</button> */}
       <button
         type="button"
         onClick={ () => addValues({ column, comparison, value }) }

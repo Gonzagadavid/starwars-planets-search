@@ -11,14 +11,12 @@ const Provider = ({ children }) => {
   const [name, setFilterByName] = useState('');
   const [sort, column, setSort] = useTwoValues(['ASC', 'name']);
   const [filterByNumericValues, addValues, removeValues] = useArray([]);
-  // const original = useRef(data);
 
   const fetchPlanets = useCallback(async () => {
     const { results } = await fetchApi();
     const orderData = arraySort(results, sort, column);
     setData(orderData);
     setOriginal(orderData);
-    // original = results;
   }, [column, setData, sort]);
 
   const filterNumber = useCallback(() => {

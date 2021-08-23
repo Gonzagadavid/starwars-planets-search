@@ -15,7 +15,6 @@ const InputName = () => {
         value={ name }
         onChange={ ({ target: { value } }) => setFilterByName(value) }
       />
-      {/* <button type="button" onClick={ resetFilters }>X</button> */}
     </div>
   );
 };
