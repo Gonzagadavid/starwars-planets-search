@@ -4,10 +4,10 @@ import Input from '../Input/Input';
 
 const InputName = () => {
   const {
-    setFilterByName, filters: { filterByName: { name } }, resetFilters,
+    setFilterByName, filters: { filterByName: { name } },
   } = useContext(StarWarsContext);
   return (
-    <div data-testid="filter">
+    <div>
       <Input
         id="name-filter"
         type="text"
@@ -15,7 +15,7 @@ const InputName = () => {
         value={ name }
         onChange={ ({ target: { value } }) => setFilterByName(value) }
       />
-      <button type="button" onClick={ resetFilters }>X</button>
+      {/* <button type="button" onClick={ resetFilters }>X</button> */}
     </div>
   );
 };

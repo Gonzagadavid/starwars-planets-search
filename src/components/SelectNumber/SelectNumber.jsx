@@ -9,14 +9,14 @@ const SelectNumber = () => {
   const [column, comparison, value, setValues,
   ] = useThreeValues(['population', 'maior que', 0]);
 
-  const { setSelect, filters: { filterByNumericValues }, resetFilters,
+  const { addValues, filters: { filterByNumericValues },
   } = useContext(StarWarsContext);
 
   const colFiltered = filterByNumericValues.map(({ column: col }) => col);
   const columnsFilter = columns.filter((col) => !colFiltered.includes(col));
 
   return (
-    <div data-testid="filter">
+    <div>
       <Select
         id="column-filter"
         labelText="Selecione a coluna"
@@ -45,10 +45,10 @@ const SelectNumber = () => {
           ({ target: { value: newValue } }) => setValues([column, comparison, newValue])
         }
       />
-      <button type="button" onClick={ resetFilters }>X</button>
+      {/* <button type="button" onClick={ resetFilters }>X</button> */}
       <button
         type="button"
-        onClick={ () => setSelect([column, comparison, value]) }
+        onClick={ () => addValues({ column, comparison, value }) }
         data-testid="button-filter"
       >
         Filtrar

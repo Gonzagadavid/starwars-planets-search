@@ -1,58 +1,44 @@
 import { node } from 'prop-types';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { arrayFilter, arraySort, filterIncludes } from '../functions';
-import { useTwoValues, useThreeValues } from '../hooks';
+import React, { useCallback, useEffect, useState } from 'react';
+import { arraySort, filterIncludes, mapFilters } from '../functions';
+import { useTwoValues, useArray } from '../hooks';
 import fetchApi from '../services/fetchApi';
 import StarWarsContext from './StarWarsContext';
 
 const Provider = ({ children }) => {
   const [data, setData] = useState([]);
-  const [filterName, setFilterByName] = useState('');
-  const [sortOrder, columnSort, setSort] = useTwoValues(['ASC', 'name']);
-  const [column, comparison, value, setSelect] = useThreeValues();
-  const initialData = useRef(data);
-  const filterData = useRef(data);
-  const filterByNum = useRef([]);
+  const [original, setOriginal] = useState([]);
+  const [name, setFilterByName] = useState('');
+  const [sort, column, setSort] = useTwoValues(['ASC', 'name']);
+  const [filterByNumericValues, addValues, removeValues] = useArray([]);
+  // const original = useRef(data);
 
   const fetchPlanets = useCallback(async () => {
     const { results } = await fetchApi();
-    setData(arraySort(results, sortOrder, columnSort));
-    filterData.current = results;
-    initialData.current = results;
-  }, [columnSort, setData, sortOrder]);
+    const orderData = arraySort(results, sort, column);
+    setData(orderData);
+    setOriginal(orderData);
+    // original = results;
+  }, [column, setData, sort]);
 
   const filterNumber = useCallback(() => {
-    const newData = arrayFilter(filterData.current, comparison, column, value);
-    filterByNum.current = [...filterByNum.current, { column, comparison, value }];
-    setData(newData);
-    filterData.current = newData;
-  }, [column, comparison, value]);
+    setData(mapFilters(original, filterByNumericValues));
+  }, [filterByNumericValues, original]);
 
   useEffect(() => { fetchPlanets(); }, [fetchPlanets]);
 
   useEffect(() => { filterNumber(); }, [filterNumber]);
 
-  useEffect(() => { setData(filterIncludes(filterData.current, filterName, 'name')); },
-    [filterData, filterName]);
+  useEffect(() => { setData(filterIncludes(original, name, 'name')); },
+    [original, name]);
 
-  useEffect(() => { setData(arraySort(filterData.current, sortOrder, columnSort)); },
-    [columnSort, sortOrder, filterData]);
+  useEffect(() => { setData(arraySort(original, sort, column)); },
+    [column, sort, original]);
 
-  const resetFilters = () => {
-    setData(initialData.current);
-    setFilterByName('');
-    filterByNum.current = [];
-  };
-
-  const filters = {
-    filterByName: { name: filterName },
-    filterByNumericValues: filterByNum.current,
-    order: { column: columnSort, sort: sortOrder },
-  };
-
-  const context = {
-    data, filters, setFilterByName, setSelect, resetFilters, setSort,
-  };
+  const filterByName = { name };
+  const order = { column, sort };
+  const filters = { filterByName, filterByNumericValues, order };
+  const context = { data, filters, setFilterByName, setSort, addValues, removeValues };
 
   return (
     <StarWarsContext.Provider value={ context }>
